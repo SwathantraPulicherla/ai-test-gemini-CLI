@@ -27,6 +27,12 @@ float fahrenheit_to_celsius(float fahrenheit) {
     return (fahrenheit - 32.0f) * 5.0f / 9.0f;
 }
 
+// Function to convert Celsius to Kelvin
+// Behavior: Returns celsius + 273.15f
+float celsius_to_kelvin(float celsius) {
+    return celsius + 273.15f;
+}
+
 // Function to get temperature status as string
 // Behavior: Returns "Cold" if temp < 10, "Normal" if 10-25, "Warm" if 25-35, "Hot" if > 35
 const char* get_temperature_status(float temp) {
