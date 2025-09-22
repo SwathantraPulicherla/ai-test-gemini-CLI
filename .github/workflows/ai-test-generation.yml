@@ -173,7 +173,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report-${{ github.run_id }}
+          name: github-pages
           path: coverage-report/
           
       - name: Comment on issue and remove label
