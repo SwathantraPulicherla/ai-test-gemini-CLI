@@ -36,6 +36,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y gcc build-essential
+          git clone https://github.com/ThrowTheSwitch/Unity.git unity
           
       - name: Install Python dependencies
         run: |
