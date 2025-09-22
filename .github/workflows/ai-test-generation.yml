@@ -1,5 +1,7 @@
 name: AI Test Generation
 on:
+  push:
+    branches: [ main ]
   issues:
     types: [labeled, opened]
   workflow_dispatch:
@@ -15,11 +17,12 @@ on:
 
 jobs:
   generate-tests:
-    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'ai-test-generation') }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'ai-test-generation')) || github.event_name == 'push' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
+      issues: write
     
     steps:
       - name: Checkout code
@@ -75,23 +78,42 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add tests/generated/
-          git commit -m "Add AI-generated test cases for issue #${{ github.event.issue.number }}" || echo "No changes to commit"
+          if [ "${{ github.event_name }}" == "issues" ]; then
+            commit_msg="Add AI-generated test cases for issue #${{ github.event.issue.number }}"
+          else
+            commit_msg="Add AI-generated test cases (automated on push)"
+          fi
+          git commit -m "$commit_msg" || echo "No changes to commit"
           git push origin HEAD:${{ github.ref }} || echo "No changes to push"
           
       - name: Build and run tests
-        continue-on-error: true
         run: |
           rm -rf build  # Clean previous build to avoid CMake cache conflicts
           mkdir -p build
           cd build
           cmake ..
           make
+          
+      - name: Run tests and capture output
+        run: |
+          output_file="test_output.txt"
+          echo "Test Results:" > $output_file
+          cd build
           # Run all generated test executables
           for exe in *_test; do
             if [ -x "$exe" ]; then
-              echo "Running $exe"
-              ./$exe
+              echo "Running $exe" >> ../$output_file
+              ./$exe >> ../$output_file 2>&1
+              echo "" >> ../$output_file
             fi
           done
           # Run manual test
-          ./test_temperature_sensor
+          ./test_temperature_sensor >> ../$output_file 2>&1
+          
+      - name: Comment on issue and remove label
+        if: github.event_name == 'issues'
+        run: |
+          # Comment on the issue with test results
+          gh issue comment ${{ github.event.issue.number }} --body-file test_output.txt
+          # Remove the trigger label
+          gh issue edit ${{ github.event.issue.number }} --remove-label ai-test-generation
