@@ -2,55 +2,75 @@
 #include "unity.h"
 #include "temperature_sensor.h"
 
-void setUp(void) {} // optional setup function
-void tearDown(void) {} // optional teardown function
+void setUp(void) {}
+void tearDown(void) {}
 
-void test_get_temperature_normal_range(void) {
-  //  Assume get_temperature() returns a value between -10 and 40 for testing purposes.  Adjust as needed for your actual implementation.
+void test_get_temperature_normal(void) {
+  // Expect a reasonable temperature reading.  Adjust expected value as needed.
   float temp = get_temperature();
-  TEST_ASSERT_FLOAT_WITHIN(0.1, -10, temp); //Example, replace with appropriate range
-  TEST_ASSERT_FLOAT_WITHIN(0.1, 40, temp); //Example, replace with appropriate range
-
-}
-
-void test_get_temperature_edge_cases(void){
-    // Add tests for edge cases if your get_temperature() function has any.
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 25.0, temp); //Example: Expecting around 25 degrees
 }
 
 void test_is_temperature_safe_within_range(void) {
-  TEST_ASSERT_EQUAL(1, is_temperature_safe(25)); // Example safe temperature
+  TEST_ASSERT_EQUAL(1, is_temperature_safe(20.0)); //Example: 20 is within safe range
 }
 
 void test_is_temperature_safe_below_range(void) {
-  TEST_ASSERT_EQUAL(0, is_temperature_safe(-50)); // Example unsafe temperature
+  TEST_ASSERT_EQUAL(0, is_temperature_safe(0.0)); //Example: 0 is below safe range
 }
 
 void test_is_temperature_safe_above_range(void) {
-  TEST_ASSERT_EQUAL(0, is_temperature_safe(100)); // Example unsafe temperature
-}
-
-void test_celsius_to_fahrenheit_freezing(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.1, 32.0, celsius_to_fahrenheit(0));
-}
-
-void test_celsius_to_fahrenheit_boiling(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.1, 212.0, celsius_to_fahrenheit(100));
+  TEST_ASSERT_EQUAL(0, is_temperature_safe(100.0)); //Example: 100 is above safe range
 }
 
 void test_celsius_to_fahrenheit_normal(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.1, 68.0, celsius_to_fahrenheit(20));
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 77.0, celsius_to_fahrenheit(25.0));
+}
+
+void test_celsius_to_fahrenheit_freezing(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 32.0, celsius_to_fahrenheit(0.0));
+}
+
+void test_celsius_to_fahrenheit_boiling(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 212.0, celsius_to_fahrenheit(100.0));
+}
+
+void test_fahrenheit_to_celsius_normal(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 25.0, fahrenheit_to_celsius(77.0));
+}
+
+void test_fahrenheit_to_celsius_freezing(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 0.0, fahrenheit_to_celsius(32.0));
+}
+
+void test_fahrenheit_to_celsius_boiling(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 100.0, fahrenheit_to_celsius(212.0));
+}
+
+void test_get_temperature_status_safe(void) {
+  const char* status = get_temperature_status(25.0); //Example: 25 is safe
+  TEST_ASSERT_EQUAL_STRING("Safe", status);
+}
+
+void test_get_temperature_status_unsafe(void) {
+  const char* status = get_temperature_status(100.0); //Example: 100 is unsafe
+  TEST_ASSERT_EQUAL_STRING("Unsafe", status);
 }
 
 
 int main(void) {
   UNITY_BEGIN();
-  RUN_TEST(test_get_temperature_normal_range);
-  RUN_TEST(test_get_temperature_edge_cases);
+  RUN_TEST(test_get_temperature_normal);
   RUN_TEST(test_is_temperature_safe_within_range);
   RUN_TEST(test_is_temperature_safe_below_range);
   RUN_TEST(test_is_temperature_safe_above_range);
+  RUN_TEST(test_celsius_to_fahrenheit_normal);
   RUN_TEST(test_celsius_to_fahrenheit_freezing);
   RUN_TEST(test_celsius_to_fahrenheit_boiling);
-  RUN_TEST(test_celsius_to_fahrenheit_normal);
+  RUN_TEST(test_fahrenheit_to_celsius_normal);
+  RUN_TEST(test_fahrenheit_to_celsius_freezing);
+  RUN_TEST(test_fahrenheit_to_celsius_boiling);
+  RUN_TEST(test_get_temperature_status_safe);
+  RUN_TEST(test_get_temperature_status_unsafe);
   return UNITY_END();
 }
