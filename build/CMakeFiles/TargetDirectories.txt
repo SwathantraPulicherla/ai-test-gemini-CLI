@@ -1,6 +1,8 @@
-/workspaces/testingGocodeo/build/CMakeFiles/temperature_sensor_lib.dir
-/workspaces/testingGocodeo/build/CMakeFiles/temperature_sensor.dir
-/workspaces/testingGocodeo/build/CMakeFiles/test_temperature_sensor.dir
-/workspaces/testingGocodeo/build/CMakeFiles/test.dir
-/workspaces/testingGocodeo/build/CMakeFiles/edit_cache.dir
-/workspaces/testingGocodeo/build/CMakeFiles/rebuild_cache.dir
+/workspaces/ai-test-gemini-CLI/build/CMakeFiles/temperature_sensor_lib.dir
+/workspaces/ai-test-gemini-CLI/build/CMakeFiles/temperature_sensor.dir
+/workspaces/ai-test-gemini-CLI/build/CMakeFiles/test_temperature_sensor.dir
+/workspaces/ai-test-gemini-CLI/build/CMakeFiles/main_test.dir
+/workspaces/ai-test-gemini-CLI/build/CMakeFiles/temperature_sensor_test.dir
+/workspaces/ai-test-gemini-CLI/build/CMakeFiles/test.dir
+/workspaces/ai-test-gemini-CLI/build/CMakeFiles/edit_cache.dir
+/workspaces/ai-test-gemini-CLI/build/CMakeFiles/rebuild_cache.dir

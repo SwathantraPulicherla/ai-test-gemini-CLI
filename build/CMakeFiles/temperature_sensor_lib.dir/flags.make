@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/workspaces/testingGocodeo/unity/src
+C_INCLUDES = -I/workspaces/ai-test-gemini-CLI/unity/src
 
 C_FLAGS = -std=gnu99
 

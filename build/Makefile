@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /workspaces/testingGocodeo
+CMAKE_SOURCE_DIR = /workspaces/ai-test-gemini-CLI
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /workspaces/testingGocodeo/build
+CMAKE_BINARY_DIR = /workspaces/ai-test-gemini-CLI/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -97,9 +97,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/testingGocodeo/build/CMakeFiles /workspaces/testingGocodeo/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/ai-test-gemini-CLI/build/CMakeFiles /workspaces/ai-test-gemini-CLI/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/testingGocodeo/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/ai-test-gemini-CLI/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -164,6 +164,32 @@ test_temperature_sensor: cmake_check_build_system
 test_temperature_sensor/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_temperature_sensor.dir/build.make CMakeFiles/test_temperature_sensor.dir/build
 .PHONY : test_temperature_sensor/fast
+
+#=============================================================================
+# Target rules for targets named main_test
+
+# Build rule for target.
+main_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main_test
+.PHONY : main_test
+
+# fast build rule for target.
+main_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_test.dir/build.make CMakeFiles/main_test.dir/build
+.PHONY : main_test/fast
+
+#=============================================================================
+# Target rules for targets named temperature_sensor_test
+
+# Build rule for target.
+temperature_sensor_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 temperature_sensor_test
+.PHONY : temperature_sensor_test
+
+# fast build rule for target.
+temperature_sensor_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/temperature_sensor_test.dir/build.make CMakeFiles/temperature_sensor_test.dir/build
+.PHONY : temperature_sensor_test/fast
 
 main.o: main.c.o
 .PHONY : main.o
@@ -237,12 +263,62 @@ test/test_temperature_sensor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_temperature_sensor.dir/build.make CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.s
 .PHONY : test/test_temperature_sensor.c.s
 
+tests/generated/main_test.o: tests/generated/main_test.c.o
+.PHONY : tests/generated/main_test.o
+
+# target to build an object file
+tests/generated/main_test.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_test.dir/build.make CMakeFiles/main_test.dir/tests/generated/main_test.c.o
+.PHONY : tests/generated/main_test.c.o
+
+tests/generated/main_test.i: tests/generated/main_test.c.i
+.PHONY : tests/generated/main_test.i
+
+# target to preprocess a source file
+tests/generated/main_test.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_test.dir/build.make CMakeFiles/main_test.dir/tests/generated/main_test.c.i
+.PHONY : tests/generated/main_test.c.i
+
+tests/generated/main_test.s: tests/generated/main_test.c.s
+.PHONY : tests/generated/main_test.s
+
+# target to generate assembly for a file
+tests/generated/main_test.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_test.dir/build.make CMakeFiles/main_test.dir/tests/generated/main_test.c.s
+.PHONY : tests/generated/main_test.c.s
+
+tests/generated/temperature_sensor_test.o: tests/generated/temperature_sensor_test.c.o
+.PHONY : tests/generated/temperature_sensor_test.o
+
+# target to build an object file
+tests/generated/temperature_sensor_test.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/temperature_sensor_test.dir/build.make CMakeFiles/temperature_sensor_test.dir/tests/generated/temperature_sensor_test.c.o
+.PHONY : tests/generated/temperature_sensor_test.c.o
+
+tests/generated/temperature_sensor_test.i: tests/generated/temperature_sensor_test.c.i
+.PHONY : tests/generated/temperature_sensor_test.i
+
+# target to preprocess a source file
+tests/generated/temperature_sensor_test.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/temperature_sensor_test.dir/build.make CMakeFiles/temperature_sensor_test.dir/tests/generated/temperature_sensor_test.c.i
+.PHONY : tests/generated/temperature_sensor_test.c.i
+
+tests/generated/temperature_sensor_test.s: tests/generated/temperature_sensor_test.c.s
+.PHONY : tests/generated/temperature_sensor_test.s
+
+# target to generate assembly for a file
+tests/generated/temperature_sensor_test.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/temperature_sensor_test.dir/build.make CMakeFiles/temperature_sensor_test.dir/tests/generated/temperature_sensor_test.c.s
+.PHONY : tests/generated/temperature_sensor_test.c.s
+
 unity/src/unity.o: unity/src/unity.c.o
 .PHONY : unity/src/unity.o
 
 # target to build an object file
 unity/src/unity.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_temperature_sensor.dir/build.make CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_test.dir/build.make CMakeFiles/main_test.dir/unity/src/unity.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/temperature_sensor_test.dir/build.make CMakeFiles/temperature_sensor_test.dir/unity/src/unity.c.o
 .PHONY : unity/src/unity.c.o
 
 unity/src/unity.i: unity/src/unity.c.i
@@ -251,6 +327,8 @@ unity/src/unity.i: unity/src/unity.c.i
 # target to preprocess a source file
 unity/src/unity.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_temperature_sensor.dir/build.make CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_test.dir/build.make CMakeFiles/main_test.dir/unity/src/unity.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/temperature_sensor_test.dir/build.make CMakeFiles/temperature_sensor_test.dir/unity/src/unity.c.i
 .PHONY : unity/src/unity.c.i
 
 unity/src/unity.s: unity/src/unity.c.s
@@ -259,6 +337,8 @@ unity/src/unity.s: unity/src/unity.c.s
 # target to generate assembly for a file
 unity/src/unity.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_temperature_sensor.dir/build.make CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_test.dir/build.make CMakeFiles/main_test.dir/unity/src/unity.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/temperature_sensor_test.dir/build.make CMakeFiles/temperature_sensor_test.dir/unity/src/unity.c.s
 .PHONY : unity/src/unity.c.s
 
 # Help Target
@@ -270,8 +350,10 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... main_test"
 	@echo "... temperature_sensor"
 	@echo "... temperature_sensor_lib"
+	@echo "... temperature_sensor_test"
 	@echo "... test_temperature_sensor"
 	@echo "... main.o"
 	@echo "... main.i"
@@ -282,6 +364,12 @@ help:
 	@echo "... test/test_temperature_sensor.o"
 	@echo "... test/test_temperature_sensor.i"
 	@echo "... test/test_temperature_sensor.s"
+	@echo "... tests/generated/main_test.o"
+	@echo "... tests/generated/main_test.i"
+	@echo "... tests/generated/main_test.s"
+	@echo "... tests/generated/temperature_sensor_test.o"
+	@echo "... tests/generated/temperature_sensor_test.i"
+	@echo "... tests/generated/temperature_sensor_test.s"
 	@echo "... unity/src/unity.o"
 	@echo "... unity/src/unity.i"
 	@echo "... unity/src/unity.s"

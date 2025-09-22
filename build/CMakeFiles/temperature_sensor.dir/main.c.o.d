@@ -1,5 +1,5 @@
 CMakeFiles/temperature_sensor.dir/main.c.o: \
- /workspaces/testingGocodeo/main.c /usr/include/stdc-predef.h \
+ /workspaces/ai-test-gemini-CLI/main.c /usr/include/stdc-predef.h \
  /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -24,4 +24,4 @@ CMakeFiles/temperature_sensor.dir/main.c.o: \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
- /workspaces/testingGocodeo/temperature_sensor.h
+ /workspaces/ai-test-gemini-CLI/temperature_sensor.h

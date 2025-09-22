@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /workspaces/testingGocodeo
+CMAKE_SOURCE_DIR = /workspaces/ai-test-gemini-CLI
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /workspaces/testingGocodeo/build
+CMAKE_BINARY_DIR = /workspaces/ai-test-gemini-CLI/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/test_temperature_sensor.dir/depend.make
@@ -70,32 +70,32 @@ include CMakeFiles/test_temperature_sensor.dir/progress.make
 include CMakeFiles/test_temperature_sensor.dir/flags.make
 
 CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o: CMakeFiles/test_temperature_sensor.dir/flags.make
-CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o: /workspaces/testingGocodeo/test/test_temperature_sensor.c
+CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o: /workspaces/ai-test-gemini-CLI/test/test_temperature_sensor.c
 CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o: CMakeFiles/test_temperature_sensor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/testingGocodeo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o -MF CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o.d -o CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o -c /workspaces/testingGocodeo/test/test_temperature_sensor.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/ai-test-gemini-CLI/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o -MF CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o.d -o CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o -c /workspaces/ai-test-gemini-CLI/test/test_temperature_sensor.c
 
 CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /workspaces/testingGocodeo/test/test_temperature_sensor.c > CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /workspaces/ai-test-gemini-CLI/test/test_temperature_sensor.c > CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.i
 
 CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspaces/testingGocodeo/test/test_temperature_sensor.c -o CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspaces/ai-test-gemini-CLI/test/test_temperature_sensor.c -o CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.s
 
 CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o: CMakeFiles/test_temperature_sensor.dir/flags.make
-CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o: /workspaces/testingGocodeo/unity/src/unity.c
+CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o: /workspaces/ai-test-gemini-CLI/unity/src/unity.c
 CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o: CMakeFiles/test_temperature_sensor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/testingGocodeo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o -MF CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o.d -o CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o -c /workspaces/testingGocodeo/unity/src/unity.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/ai-test-gemini-CLI/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o -MF CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o.d -o CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o -c /workspaces/ai-test-gemini-CLI/unity/src/unity.c
 
 CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /workspaces/testingGocodeo/unity/src/unity.c > CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /workspaces/ai-test-gemini-CLI/unity/src/unity.c > CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.i
 
 CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspaces/testingGocodeo/unity/src/unity.c -o CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspaces/ai-test-gemini-CLI/unity/src/unity.c -o CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.s
 
 # Object files for target test_temperature_sensor
 test_temperature_sensor_OBJECTS = \
@@ -110,7 +110,7 @@ test_temperature_sensor: CMakeFiles/test_temperature_sensor.dir/unity/src/unity.
 test_temperature_sensor: CMakeFiles/test_temperature_sensor.dir/build.make
 test_temperature_sensor: libtemperature_sensor_lib.a
 test_temperature_sensor: CMakeFiles/test_temperature_sensor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspaces/testingGocodeo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable test_temperature_sensor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspaces/ai-test-gemini-CLI/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable test_temperature_sensor"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_temperature_sensor.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -122,6 +122,6 @@ CMakeFiles/test_temperature_sensor.dir/clean:
 .PHONY : CMakeFiles/test_temperature_sensor.dir/clean
 
 CMakeFiles/test_temperature_sensor.dir/depend:
-	cd /workspaces/testingGocodeo/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /workspaces/testingGocodeo /workspaces/testingGocodeo /workspaces/testingGocodeo/build /workspaces/testingGocodeo/build /workspaces/testingGocodeo/build/CMakeFiles/test_temperature_sensor.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /workspaces/ai-test-gemini-CLI/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /workspaces/ai-test-gemini-CLI /workspaces/ai-test-gemini-CLI /workspaces/ai-test-gemini-CLI/build /workspaces/ai-test-gemini-CLI/build /workspaces/ai-test-gemini-CLI/build/CMakeFiles/test_temperature_sensor.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/test_temperature_sensor.dir/depend
 

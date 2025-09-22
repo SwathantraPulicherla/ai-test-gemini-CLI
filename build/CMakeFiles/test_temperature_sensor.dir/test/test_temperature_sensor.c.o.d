@@ -1,7 +1,8 @@
 CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o: \
- /workspaces/testingGocodeo/test/test_temperature_sensor.c \
- /usr/include/stdc-predef.h /workspaces/testingGocodeo/unity/src/unity.h \
- /workspaces/testingGocodeo/unity/src/unity_internals.h \
+ /workspaces/ai-test-gemini-CLI/test/test_temperature_sensor.c \
+ /usr/include/stdc-predef.h \
+ /workspaces/ai-test-gemini-CLI/unity/src/unity.h \
+ /workspaces/ai-test-gemini-CLI/unity/src/unity_internals.h \
  /usr/include/setjmp.h /usr/include/features.h \
  /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -50,4 +51,4 @@ CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /workspaces/testingGocodeo/test/../temperature_sensor.h
+ /workspaces/ai-test-gemini-CLI/test/../temperature_sensor.h

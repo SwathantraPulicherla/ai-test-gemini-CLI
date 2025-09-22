@@ -1,5 +1,5 @@
 CMakeFiles/temperature_sensor_lib.dir/temperature_sensor.c.o: \
- /workspaces/testingGocodeo/temperature_sensor.c \
+ /workspaces/ai-test-gemini-CLI/temperature_sensor.c \
  /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \

@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/workspaces/testingGocodeo/test/test_temperature_sensor.c" "CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o" "gcc" "CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o.d"
-  "/workspaces/testingGocodeo/unity/src/unity.c" "CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o" "gcc" "CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o.d"
+  "/workspaces/ai-test-gemini-CLI/test/test_temperature_sensor.c" "CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o" "gcc" "CMakeFiles/test_temperature_sensor.dir/test/test_temperature_sensor.c.o.d"
+  "/workspaces/ai-test-gemini-CLI/unity/src/unity.c" "CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o" "gcc" "CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

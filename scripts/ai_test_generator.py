@@ -27,10 +27,31 @@ def read_source_file(c_file, h_files):
     
     return source_code
 
-def extract_functions(source_code):
-    """Extract function signatures from C code"""
-    function_pattern = r'\w+\s+\w+\([^)]*\)\s*\{'
-    functions = re.findall(function_pattern, source_code)
+def extract_functions_with_docs(source_code):
+    """Extract function signatures with preceding documentation and behavior"""
+    functions = []
+    lines = source_code.split('\n')
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        # Look for function signatures
+        if re.match(r'^\w+\s+\w+\s*\([^)]*\)\s*\{', line):
+            # Extract function signature
+            func_match = re.match(r'(\w+\s+\w+\s*\([^)]*\))\s*\{', line)
+            if func_match:
+                func_sig = func_match.group(1)
+                # Look for preceding comments and behavior (up to 10 lines back)
+                docs = []
+                behavior = ""
+                for j in range(max(0, i-10), i):
+                    stripped = lines[j].strip()
+                    if stripped.startswith('//') or stripped.startswith('/*'):
+                        docs.append(stripped)
+                        if 'Behavior:' in stripped:
+                            behavior = stripped.replace('// Behavior:', '').strip()
+                doc_string = '\n'.join(docs) if docs else "No documentation found"
+                functions.append(f"Function: {func_sig}\nDocumentation: {doc_string}\nBehavior: {behavior}")
+        i += 1
     return functions
 
 def generate_test_prompt(source_code, issue_title, issue_body):
@@ -49,18 +70,29 @@ def generate_test_prompt(source_code, issue_title, issue_body):
     5. **PROPER HEADERS**: Include "unity.h" and the source file headers
     6. **CORRECT SIGNATURES**: Test functions must be void test_name(void)
 
+    FUNCTION BEHAVIOR FROM CODE:
+    Use the Behavior information provided for each function to create appropriate test expectations.
+    Pay special attention to return types and expected values based on the documented behavior.
+
+    RETURN TYPE AWARENESS:
+    - Float-returning functions: Use TEST_ASSERT_FLOAT_WITHIN for comparisons
+    - Int-returning functions: Use TEST_ASSERT_EQUAL for exact matches
+    - Boolean logic functions: Use TEST_ASSERT_TRUE/TEST_ASSERT_FALSE appropriately
+
     COMMON MISTAKES TO AVOID:
     - Redefining existing functions (causes linker errors)
     - Using non-existent Unity macros (causes compilation errors)  
     - Including mocking code without CMock (causes linker errors)
-    - Missing necessary header includes
+    - Ignoring the documented behavior of functions
+    - Incorrect return type assumptions (float vs int)
 
     OUTPUT REQUIREMENTS:
     - Must be compilable with gcc and Unity framework
     - Must follow standard Unity test structure
     - Must use only the assertions listed above
+    - Must have correct expectations based on the documented function behavior
     """
-    functions = extract_functions(source_code)
+    functions = extract_functions_with_docs(source_code)
     
     prompt = f"""
     {constraints}
@@ -69,7 +101,7 @@ TASK: Generate comprehensive unit tests for C code using the Unity testing frame
 SOURCE CODE:
 {source_code}
 
-FUNCTIONS DETECTED:
+FUNCTIONS WITH DOCUMENTATION:
 {chr(10).join(functions) if functions else 'No functions detected'}
 
 ISSUE TITLE: {issue_title}

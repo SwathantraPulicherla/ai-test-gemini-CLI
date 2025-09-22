@@ -1,7 +1,8 @@
 CMakeFiles/test_temperature_sensor.dir/unity/src/unity.c.o: \
- /workspaces/testingGocodeo/unity/src/unity.c /usr/include/stdc-predef.h \
- /workspaces/testingGocodeo/unity/src/unity.h \
- /workspaces/testingGocodeo/unity/src/unity_internals.h \
+ /workspaces/ai-test-gemini-CLI/unity/src/unity.c \
+ /usr/include/stdc-predef.h \
+ /workspaces/ai-test-gemini-CLI/unity/src/unity.h \
+ /workspaces/ai-test-gemini-CLI/unity/src/unity_internals.h \
  /usr/include/setjmp.h /usr/include/features.h \
  /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
