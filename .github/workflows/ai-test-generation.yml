@@ -95,20 +95,38 @@ jobs:
           make
           
       - name: Run tests and capture output
+        continue-on-error: true
         run: |
           output_file="test_output.txt"
           echo "Test Results:" > $output_file
           cd build
+          overall_exit_code=0
+          
           # Run all generated test executables
           for exe in *_test; do
             if [ -x "$exe" ]; then
               echo "Running $exe" >> ../$output_file
               ./$exe >> ../$output_file 2>&1
+              test_exit_code=$?
+              if [ $test_exit_code -ne 0 ]; then
+                echo "Test $exe failed with exit code $test_exit_code" >> ../$output_file
+                overall_exit_code=$test_exit_code
+              fi
               echo "" >> ../$output_file
             fi
           done
+          
           # Run manual test
+          echo "Running manual test_temperature_sensor" >> ../$output_file
           ./test_temperature_sensor >> ../$output_file 2>&1
+          manual_exit_code=$?
+          if [ $manual_exit_code -ne 0 ]; then
+            echo "Manual test failed with exit code $manual_exit_code" >> ../$output_file
+            overall_exit_code=$manual_exit_code
+          fi
+          
+          echo "Overall test run completed with exit code: $overall_exit_code" >> ../$output_file
+          exit $overall_exit_code
           
       - name: Comment on issue and remove label
         if: github.event_name == 'issues'
