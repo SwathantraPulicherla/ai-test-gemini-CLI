@@ -5,6 +5,7 @@ int main() {
     float temp = get_temperature();
     printf("Current temperature: %.2f°C\n", temp);
     printf("Current temperature: %.2f°F\n", celsius_to_fahrenheit(temp));
+    printf("Temperature status: %s\n", get_temperature_status(temp));
     if (is_temperature_safe(temp)) {
         printf("Temperature is within safe range.\n");
     } else {

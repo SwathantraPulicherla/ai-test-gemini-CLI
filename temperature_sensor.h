@@ -10,4 +10,10 @@ int is_temperature_safe(float temp);
 // Function to convert Celsius to Fahrenheit
 float celsius_to_fahrenheit(float celsius);
 
+// Function to convert Fahrenheit to Celsius
+float fahrenheit_to_celsius(float fahrenheit);
+
+// Function to get temperature status as string
+const char* get_temperature_status(float temp);
+
 #endif // TEMPERATURE_SENSOR_H
