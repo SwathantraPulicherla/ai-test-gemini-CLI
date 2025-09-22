@@ -169,7 +169,7 @@ def main():
     
     # Configure Gemini
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-2.5-pro')
     
     # Find all C files
     c_files = glob.glob("*.c")
