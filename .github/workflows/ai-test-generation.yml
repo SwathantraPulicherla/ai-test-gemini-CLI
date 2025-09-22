@@ -134,8 +134,7 @@ jobs:
         run: |
           cd build
           lcov --capture --directory . --output-file coverage.info --ignore-errors unused
-          lcov --remove coverage.info '*/tests/*' '*/unity/*' '*/test/*' '/usr/*' '*test*.c' --output-file coverage_filtered.info --ignore-errors unused
-          lcov --extract coverage_filtered.info '*.c' --output-file coverage_source.info --ignore-errors unused
+          lcov --extract coverage.info '*/temperature_sensor.c' '*/main.c' --output-file coverage_source.info --ignore-errors unused,empty
           genhtml coverage_source.info --output-directory coverage_html
 
       - name: Upload coverage report artifact
