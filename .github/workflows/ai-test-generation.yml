@@ -175,10 +175,18 @@ jobs:
           
       - name: Upload coverage report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3   # ⬅ change: use upload-pages-artifact, not upload-artifact
         with:
-          name: github-pages
           path: coverage-report/
+
+      - name: Setup Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v5
+
+      - name: Deploy coverage to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        id: deployment
+        uses: actions/deploy-pages@v4
           
       - name: Comment on issue and remove label
         if: github.event_name == 'issues'
