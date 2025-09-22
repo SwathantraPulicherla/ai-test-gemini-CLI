@@ -5,33 +5,58 @@
 void setUp(void) {}
 void tearDown(void) {}
 
-void test_get_temperature_returns_25_5(void) {
+void test_get_temperature(void) {
   float temp = get_temperature();
-  TEST_ASSERT_FLOAT_WITHIN(0.001, 25.5f, temp);
+  TEST_ASSERT_FLOAT_WITHIN(0.001f, 25.5f, temp);
 }
 
 void test_is_temperature_safe_within_range(void) {
   TEST_ASSERT_EQUAL(1, is_temperature_safe(25.0f));
+}
+
+void test_is_temperature_safe_below_range(void) {
+  TEST_ASSERT_EQUAL(0, is_temperature_safe(-5.0f));
+}
+
+void test_is_temperature_safe_above_range(void) {
+  TEST_ASSERT_EQUAL(0, is_temperature_safe(105.0f));
+}
+
+void test_is_temperature_safe_boundary_lower(void) {
   TEST_ASSERT_EQUAL(1, is_temperature_safe(0.0f));
+}
+
+void test_is_temperature_safe_boundary_upper(void) {
   TEST_ASSERT_EQUAL(1, is_temperature_safe(100.0f));
 }
 
-void test_is_temperature_safe_outside_range(void) {
-  TEST_ASSERT_EQUAL(0, is_temperature_safe(-1.0f));
-  TEST_ASSERT_EQUAL(0, is_temperature_safe(101.0f));
+
+void test_celsius_to_fahrenheit(void) {
+  float celsius = 0.0f;
+  float fahrenheit = celsius_to_fahrenheit(celsius);
+  TEST_ASSERT_FLOAT_WITHIN(0.001f, 32.0f, fahrenheit);
+
+  celsius = 100.0f;
+  fahrenheit = celsius_to_fahrenheit(celsius);
+  TEST_ASSERT_FLOAT_WITHIN(0.001f, 212.0f, fahrenheit);
+
+  celsius = 25.0f;
+  fahrenheit = celsius_to_fahrenheit(celsius);
+  TEST_ASSERT_FLOAT_WITHIN(0.001f, 77.0f, fahrenheit);
 }
 
-void test_celsius_to_fahrenheit_conversion(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.001, 32.0f, celsius_to_fahrenheit(0.0f));
-  TEST_ASSERT_FLOAT_WITHIN(0.001, 212.0f, celsius_to_fahrenheit(100.0f));
-  TEST_ASSERT_FLOAT_WITHIN(0.001, 68.0f, celsius_to_fahrenheit(20.0f));
+void test_fahrenheit_to_celsius(void) {
+  float fahrenheit = 32.0f;
+  float celsius = fahrenheit_to_celsius(fahrenheit);
+  TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, celsius);
 
-}
+  fahrenheit = 212.0f;
+  celsius = fahrenheit_to_celsius(fahrenheit);
+  TEST_ASSERT_FLOAT_WITHIN(0.001f, 100.0f, celsius);
 
-void test_fahrenheit_to_celsius_conversion(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.001, 0.0f, fahrenheit_to_celsius(32.0f));
-  TEST_ASSERT_FLOAT_WITHIN(0.001, 100.0f, fahrenheit_to_celsius(212.0f));
-  TEST_ASSERT_FLOAT_WITHIN(0.001, 20.0f, fahrenheit_to_celsius(68.0f));
+  fahrenheit = 77.0f;
+  celsius = fahrenheit_to_celsius(fahrenheit);
+  TEST_ASSERT_FLOAT_WITHIN(0.001f, 25.0f, celsius);
 }
 
 void test_get_temperature_status_cold(void) {
@@ -58,11 +83,14 @@ void test_get_temperature_status_boundary(void){
 
 int main(void) {
   UNITY_BEGIN();
-  RUN_TEST(test_get_temperature_returns_25_5);
+  RUN_TEST(test_get_temperature);
   RUN_TEST(test_is_temperature_safe_within_range);
-  RUN_TEST(test_is_temperature_safe_outside_range);
-  RUN_TEST(test_celsius_to_fahrenheit_conversion);
-  RUN_TEST(test_fahrenheit_to_celsius_conversion);
+  RUN_TEST(test_is_temperature_safe_below_range);
+  RUN_TEST(test_is_temperature_safe_above_range);
+  RUN_TEST(test_is_temperature_safe_boundary_lower);
+  RUN_TEST(test_is_temperature_safe_boundary_upper);
+  RUN_TEST(test_celsius_to_fahrenheit);
+  RUN_TEST(test_fahrenheit_to_celsius);
   RUN_TEST(test_get_temperature_status_cold);
   RUN_TEST(test_get_temperature_status_normal);
   RUN_TEST(test_get_temperature_status_warm);

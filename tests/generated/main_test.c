@@ -5,75 +5,78 @@
 void setUp(void) {} // optional setup function
 void tearDown(void) {} // optional teardown function
 
-void test_get_temperature_positive(void) {
-  // Assuming get_temperature() returns a reasonable value.  Replace with expected value if known.
+void test_get_temperature_normal(void) {
+  // This test relies on the implementation of get_temperature().  
+  //  Replace with a more robust test if possible, given constraints.
   float temp = get_temperature();
-  TEST_ASSERT_TRUE(temp >= -100.0 && temp <= 100.0); // Example range, adjust as needed
+  // Test assumes get_temperature() returns a reasonable value. Adjust as needed.
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 20.0, temp); //Example, adjust based on expected range
 }
 
 
 void test_is_temperature_safe_within_range(void) {
-  TEST_ASSERT_EQUAL(1, is_temperature_safe(25.0)); // Example safe temperature
+  TEST_ASSERT_TRUE(is_temperature_safe(20.0)); //Example, adjust based on safe range definition
 }
 
 void test_is_temperature_safe_below_range(void) {
-  TEST_ASSERT_EQUAL(0, is_temperature_safe(-50.0)); // Example unsafe temperature
+  TEST_ASSERT_FALSE(is_temperature_safe(0.0)); //Example, adjust based on safe range definition
 }
 
 void test_is_temperature_safe_above_range(void) {
-  TEST_ASSERT_EQUAL(0, is_temperature_safe(150.0)); // Example unsafe temperature
+  TEST_ASSERT_FALSE(is_temperature_safe(100.0)); //Example, adjust based on safe range definition
 }
 
-
-void test_celsius_to_fahrenheit_positive(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.01, 77.0, celsius_to_fahrenheit(25.0)); 
+void test_celsius_to_fahrenheit_normal(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 68.0, celsius_to_fahrenheit(20.0));
 }
 
-void test_celsius_to_fahrenheit_zero(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.01, 32.0, celsius_to_fahrenheit(0.0));
+void test_celsius_to_fahrenheit_freezing(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 32.0, celsius_to_fahrenheit(0.0));
 }
 
-void test_celsius_to_fahrenheit_negative(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.01, 14.0, celsius_to_fahrenheit(-10.0));
+void test_celsius_to_fahrenheit_boiling(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 212.0, celsius_to_fahrenheit(100.0));
 }
 
-
-void test_fahrenheit_to_celsius_positive(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.01, 25.0, fahrenheit_to_celsius(77.0));
+void test_fahrenheit_to_celsius_normal(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 20.0, fahrenheit_to_celsius(68.0));
 }
 
-void test_fahrenheit_to_celsius_zero(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.01, 0.0, fahrenheit_to_celsius(32.0));
+void test_fahrenheit_to_celsius_freezing(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 0.0, fahrenheit_to_celsius(32.0));
 }
 
-void test_fahrenheit_to_celsius_negative(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.01, -10.0, fahrenheit_to_celsius(14.0));
+void test_fahrenheit_to_celsius_boiling(void) {
+  TEST_ASSERT_FLOAT_WITHIN(0.1, 100.0, fahrenheit_to_celsius(212.0));
 }
 
 
 void test_get_temperature_status_safe(void) {
-  const char* status = get_temperature_status(25.0); //Example safe temp
-  TEST_ASSERT_EQUAL_STRING("Safe", status); //Assumes "Safe" is returned for safe temps. Adjust as needed.
+  const char* status = get_temperature_status(20.0); //Example, adjust based on safe range definition
+  TEST_ASSERT_NOT_NULL(status);
+  TEST_ASSERT_EQUAL_STRING("Safe", status); //Example, adjust based on string returned
 }
 
 void test_get_temperature_status_unsafe(void) {
-  const char* status = get_temperature_status(150.0); // Example unsafe temp
-  TEST_ASSERT_EQUAL_STRING("Unsafe", status); //Assumes "Unsafe" is returned for unsafe temps. Adjust as needed.
+  const char* status = get_temperature_status(100.0); //Example, adjust based on safe range definition
+  TEST_ASSERT_NOT_NULL(status);
+  TEST_ASSERT_EQUAL_STRING("Unsafe", status); //Example, adjust based on string returned
+
 }
 
 
 int main(void) {
   UNITY_BEGIN();
-  RUN_TEST(test_get_temperature_positive);
+  RUN_TEST(test_get_temperature_normal);
   RUN_TEST(test_is_temperature_safe_within_range);
   RUN_TEST(test_is_temperature_safe_below_range);
   RUN_TEST(test_is_temperature_safe_above_range);
-  RUN_TEST(test_celsius_to_fahrenheit_positive);
-  RUN_TEST(test_celsius_to_fahrenheit_zero);
-  RUN_TEST(test_celsius_to_fahrenheit_negative);
-  RUN_TEST(test_fahrenheit_to_celsius_positive);
-  RUN_TEST(test_fahrenheit_to_celsius_zero);
-  RUN_TEST(test_fahrenheit_to_celsius_negative);
+  RUN_TEST(test_celsius_to_fahrenheit_normal);
+  RUN_TEST(test_celsius_to_fahrenheit_freezing);
+  RUN_TEST(test_celsius_to_fahrenheit_boiling);
+  RUN_TEST(test_fahrenheit_to_celsius_normal);
+  RUN_TEST(test_fahrenheit_to_celsius_freezing);
+  RUN_TEST(test_fahrenheit_to_celsius_boiling);
   RUN_TEST(test_get_temperature_status_safe);
   RUN_TEST(test_get_temperature_status_unsafe);
   return UNITY_END();
