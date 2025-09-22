@@ -132,9 +132,13 @@ jobs:
           
           # Generate coverage report
           echo "Generating coverage report..." >> ../$output_file
-          lcov --capture --directory . --output-file coverage.info >> ../$output_file 2>&1
-          lcov --remove coverage.info '/usr/*' '*/unity/*' '*/test/*' --output-file coverage.info >> ../$output_file 2>&1
-          genhtml coverage.info --output-directory ../coverage-report >> ../$output_file 2>&1
+          lcov --capture --directory . --output-file coverage.info 2>&1 || echo "lcov capture failed" >> ../$output_file
+          if [ -f coverage.info ]; then
+            lcov --remove coverage.info '/usr/*' '*/unity/*' '*/test/*' --output-file coverage.info 2>&1 || echo "lcov remove failed" >> ../$output_file
+            genhtml coverage.info --output-directory ../coverage-report 2>&1 || echo "genhtml failed" >> ../$output_file
+          else
+            echo "coverage.info not found, skipping report generation" >> ../$output_file
+          fi
           
           # Always exit 0 to not fail the workflow
           exit 0
@@ -187,9 +191,9 @@ jobs:
       - name: Setup Pages
         if: github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
         
       - name: Deploy coverage to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: actions/deploy-pages@v4
-        with:
-          folder: coverage-report
