@@ -130,6 +130,18 @@ jobs:
           
       - name: Upload test results
         if: always()
+        run: |
+          echo "Checking for test_output.txt..."
+          ls -la test_output.txt || echo "test_output.txt not found"
+          if [ -f test_output.txt ]; then
+            echo "Test results file exists, uploading..."
+          else
+            echo "Creating empty test results file..."
+            echo "No test results available - workflow may have failed early" > test_output.txt
+          fi
+          
+      - name: Upload test results artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ github.run_id }}
