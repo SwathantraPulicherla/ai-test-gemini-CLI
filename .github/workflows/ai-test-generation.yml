@@ -128,6 +128,13 @@ jobs:
           echo "Overall test run completed with exit code: $overall_exit_code" >> ../$output_file
           exit $overall_exit_code
           
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.run_id }}
+          path: test_output.txt
+          
       - name: Comment on issue and remove label
         if: github.event_name == 'issues'
         run: |
