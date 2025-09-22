@@ -6,31 +6,24 @@ import argparse
 from pathlib import Path
 import re
 
-def read_source_files(source_dir="."):
-    """Read all C source files from the source directory"""
+def read_source_file(c_file, h_files):
+    """Read a specific C source file and related headers"""
     source_code = ""
     
-    # Look for C files in the repository root
-    c_files = glob.glob("*.c")
-    h_files = glob.glob("*.h")
-    
-    print(f"Found {len(c_files)} C files and {len(h_files)} header files")
-    
     # Read header files first
-    for file_path in h_files:
+    for h_file in h_files:
         try:
-            with open(file_path, 'r') as f:
-                source_code += f"// Header: {file_path}\n{f.read()}\n\n"
+            with open(h_file, 'r') as f:
+                source_code += f"// Header: {h_file}\n{f.read()}\n\n"
         except Exception as e:
-            print(f"Error reading {file_path}: {e}")
+            print(f"Error reading {h_file}: {e}")
     
-    # Read C source files
-    for file_path in c_files:
-        try:
-            with open(file_path, 'r') as f:
-                source_code += f"// Source: {file_path}\n{f.read()}\n\n"
-        except Exception as e:
-            print(f"Error reading {file_path}: {e}")
+    # Read the C source file
+    try:
+        with open(c_file, 'r') as f:
+            source_code += f"// Source: {c_file}\n{f.read()}\n\n"
+    except Exception as e:
+        print(f"Error reading {c_file}: {e}")
     
     return source_code
 
@@ -42,9 +35,35 @@ def extract_functions(source_code):
 
 def generate_test_prompt(source_code, issue_title, issue_body):
     """Create a detailed prompt for Gemini"""
+    """Generate compilable, functional tests with strict constraints"""
+    
+    constraints = """
+    IMPORTANT CONSTRAINTS - MUST FOLLOW STRICTLY:
+
+    1. **NO FUNCTION REDEFINITION**: Only write test functions, never redefine existing functions
+    2. **UNITY STANDARD ASSERTIONS ONLY**: 
+    - ALLOWED: TEST_ASSERT_TRUE, TEST_ASSERT_FALSE, TEST_ASSERT_EQUAL, TEST_ASSERT_NULL, TEST_ASSERT_NOT_NULL, TEST_ASSERT_FLOAT_WITHIN
+    - FORBIDDEN: TEST_ASSERT_NOT_NAN, TEST_ASSERT_NOT_INF, and other non-standard assertions
+    3. **NO MOCKING FRAMEWORKS**: Do not use mock(), will_return(), or CMock functions
+    4. **TEST ACTUAL IMPLEMENTATIONS**: Call the real functions, don't create test stubs
+    5. **PROPER HEADERS**: Include "unity.h" and the source file headers
+    6. **CORRECT SIGNATURES**: Test functions must be void test_name(void)
+
+    COMMON MISTAKES TO AVOID:
+    - Redefining existing functions (causes linker errors)
+    - Using non-existent Unity macros (causes compilation errors)  
+    - Including mocking code without CMock (causes linker errors)
+    - Missing necessary header includes
+
+    OUTPUT REQUIREMENTS:
+    - Must be compilable with gcc and Unity framework
+    - Must follow standard Unity test structure
+    - Must use only the assertions listed above
+    """
     functions = extract_functions(source_code)
     
     prompt = f"""
+    {constraints}
 TASK: Generate comprehensive unit tests for C code using the Unity testing framework.
 
 SOURCE CODE:
@@ -57,7 +76,8 @@ ISSUE TITLE: {issue_title}
 ISSUE DESCRIPTION: {issue_body}
 
 REQUIREMENTS:
-1. Generate complete Unity test cases for all detectable functions
+1. Generate clean, compilable Unity tests that follow all constraints above.
+Output only the C code without any explanations or markdown formatting.
 2. Include both normal operation and edge cases
 3. Test error conditions and boundary values
 4. Include proper setup/teardown functions
@@ -88,40 +108,65 @@ def main():
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-1.5-flash')
     
-    # Read source code
-    source_code = read_source_files()
-    if not source_code:
-        print("No source code found to analyze")
+    # Find all C files
+    c_files = glob.glob("*.c")
+    h_files = glob.glob("*.h")
+    
+    if not c_files:
+        print("No C source files found to analyze")
         exit(1)
     
-    # Generate prompt
-    prompt = generate_test_prompt(source_code, issue_title, issue_body)
+    print(f"Found {len(c_files)} C files and {len(h_files)} header files")
     
-    print("Generating tests with Gemini AI...")
+    # Ensure tests directory exists
+    os.makedirs('tests/generated', exist_ok=True)
     
-    try:
-        response = model.generate_content(prompt)
-        test_code = response.text
+    generated_files = []
+    
+    for c_file in c_files:
+        print(f"Processing {c_file}...")
         
-        # Clean up the response (remove markdown code blocks if present)
-        if '```c' in test_code:
-            test_code = test_code.split('```c')[1].split('```')[0]
-        elif '```' in test_code:
-            test_code = test_code.split('```')[1].split('```')[0]
+        # Read source code for this file
+        source_code = read_source_file(c_file, h_files)
+        if not source_code:
+            print(f"No source code found for {c_file}")
+            continue
         
-        # Ensure tests directory exists
-        os.makedirs('tests/generated', exist_ok=True)
+        # Generate prompt
+        prompt = generate_test_prompt(source_code, issue_title, issue_body)
         
-        # Write generated tests
-        output_file = 'tests/generated/generated_tests.c'
-        with open(output_file, 'w') as f:
-            f.write(test_code)
+        print(f"Generating tests for {c_file} with Gemini AI...")
         
-        print(f"Tests generated successfully: {output_file}")
-        print(f"Generated {len(test_code)} characters of test code")
-        
-    except Exception as e:
-        print(f"Error generating tests: {e}")
+        try:
+            response = model.generate_content(prompt)
+            test_code = response.text
+            
+            # Clean up the response (remove markdown code blocks if present)
+            if '```c' in test_code:
+                test_code = test_code.split('```c')[1].split('```')[0]
+            elif '```' in test_code:
+                test_code = test_code.split('```')[1].split('```')[0]
+            
+            # Write generated tests
+            base_name = os.path.splitext(c_file)[0]
+            output_file = f'tests/generated/{base_name}_test.c'
+            with open(output_file, 'w') as f:
+                f.write(test_code)
+            
+            generated_files.append(output_file)
+            print(f"Tests generated successfully: {output_file}")
+            print(f"Generated {len(test_code)} characters of test code")
+            
+        except Exception as e:
+            print(f"Error generating tests for {c_file}: {e}")
+            continue
+    
+    if generated_files:
+        print(f"Total test files generated: {len(generated_files)}")
+        for f in generated_files:
+            print(f"  - {f}")
+    else:
+        print("No test files were generated")
         exit(1)
 
 if __name__ == "__main__":

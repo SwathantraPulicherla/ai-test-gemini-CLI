@@ -57,13 +57,33 @@ jobs:
         run: |
           echo "Generated tests:"
           ls -la tests/generated/
-          if [ -f tests/generated/generated_tests.c ]; then
-            echo "Test file created successfully"
-            cat tests/generated/generated_tests.c | head -20
+          if ls tests/generated/*_test.c 1> /dev/null 2>&1; then
+            echo "Test files created successfully"
+            for file in tests/generated/*_test.c; do
+              echo "=== $file ==="
+              head -10 "$file"
+              echo "..."
+            done
           else
-            echo "No test file generated"
+            echo "No test files generated"
             exit 1
           fi
+          
+      - name: Build and run tests
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          make
+          # Run all generated test executables
+          for exe in *_test; do
+            if [ -x "$exe" ]; then
+              echo "Running $exe"
+              ./$exe
+            fi
+          done
+          # Run manual test
+          ./test_temperature_sensor
           
       - name: Commit and push generated tests
         run: |
