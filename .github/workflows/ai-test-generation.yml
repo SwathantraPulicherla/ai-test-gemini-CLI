@@ -71,6 +71,7 @@ jobs:
           
       - name: Build and run tests
         run: |
+          rm -rf build  # Clean previous build to avoid CMake cache conflicts
           mkdir -p build
           cd build
           cmake ..
