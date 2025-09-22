@@ -115,17 +115,48 @@ Output only the C code without any explanations or markdown formatting.
 4. Include proper setup/teardown functions
 5. Use descriptive test function names
 6. Include necessary headers and mocks
+7. Generate tests for ALL functions listed above - do not skip any functions
 
 OUTPUT FORMAT:
 - Complete C file with Unity tests
 - Include #include directives for necessary headers
 - Use TEST_ASSERT_* macros appropriately
 - Group related tests in test suites
+- Include a main function that runs ALL test functions
 
 Generate the complete test file:
 ```c
 """
     return prompt
+
+def validate_and_fix_test_code(test_code):
+    """Validate the generated test code and fix common issues"""
+    lines = test_code.split('\n')
+    
+    # Check if main function exists
+    has_main = any('int main' in line for line in lines)
+    
+    # Extract test function names
+    test_functions = []
+    for line in lines:
+        if line.strip().startswith('void test_') and '(' in line:
+            func_name = line.split('(')[0].strip()
+            test_functions.append(func_name)
+    
+    if not has_main and test_functions:
+        # Add a standard main function
+        main_code = f"""
+
+int main(void) {{
+    UNITY_BEGIN();
+"""
+        for func in test_functions:
+            main_code += f"    RUN_TEST({func});\n"
+        main_code += "    return UNITY_END();\n}\n"
+        
+        test_code += main_code
+    
+    return test_code
 
 def main():
     api_key = os.environ.get('GEMINI_API_KEY')
@@ -178,6 +209,9 @@ def main():
                 test_code = test_code.split('```c')[1].split('```')[0]
             elif '```' in test_code:
                 test_code = test_code.split('```')[1].split('```')[0]
+            
+            # Validate and fix the generated code
+            test_code = validate_and_fix_test_code(test_code)
             
             # Write generated tests
             base_name = os.path.splitext(c_file)[0]

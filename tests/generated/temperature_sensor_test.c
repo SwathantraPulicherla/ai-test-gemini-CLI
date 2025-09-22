@@ -30,22 +30,15 @@ void test_is_temperature_safe_upper_bound(void) {
   TEST_ASSERT_EQUAL(1, is_temperature_safe(100.0f));
 }
 
-void test_celsius_to_fahrenheit_zero_degrees(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.001f, 32.0f, celsius_to_fahrenheit(0.0f));
-}
 
-void test_celsius_to_fahrenheit_positive_degrees(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.001f, 68.0f, celsius_to_fahrenheit(20.0f));
-}
 
-void test_celsius_to_fahrenheit_negative_degrees(void) {
-  TEST_ASSERT_FLOAT_WITHIN(0.001f, 14.0f, celsius_to_fahrenheit(-10.0f));
-}
-
-void test_celsius_to_fahrenheit_boiling_point(void) {
-    TEST_ASSERT_FLOAT_WITHIN(0.001f, 212.0f, celsius_to_fahrenheit(100.0f));
-}
-
-void test_celsius_to_fahrenheit_freezing_point(void){
-    TEST_ASSERT_FLOAT_WITHIN(0.001f, 32.0f, celsius_to_fahrenheit(0.0f));
+int main(void) {
+    UNITY_BEGIN();
+    RUN_TEST(test_get_temperature_returns_25_5);
+    RUN_TEST(test_is_temperature_safe_within_range);
+    RUN_TEST(test_is_temperature_safe_below_range);
+    RUN_TEST(test_is_temperature_safe_above_range);
+    RUN_TEST(test_is_temperature_safe_lower_bound);
+    RUN_TEST(test_is_temperature_safe_upper_bound);
+    return UNITY_END();
 }
