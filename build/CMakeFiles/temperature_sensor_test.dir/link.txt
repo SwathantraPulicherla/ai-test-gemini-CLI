@@ -1,1 +1,1 @@
-/usr/bin/cc CMakeFiles/temperature_sensor_test.dir/tests/generated/temperature_sensor_test.c.o CMakeFiles/temperature_sensor_test.dir/unity/src/unity.c.o -o temperature_sensor_test  libtemperature_sensor_lib.a 
+/usr/bin/cc --coverage --coverage CMakeFiles/temperature_sensor_test.dir/tests/generated/temperature_sensor_test.c.o CMakeFiles/temperature_sensor_test.dir/unity/src/unity.c.o -o temperature_sensor_test  libtemperature_sensor_lib.a 

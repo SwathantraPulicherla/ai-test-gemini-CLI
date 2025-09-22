@@ -1,1 +1,1 @@
-/usr/bin/cc CMakeFiles/temperature_sensor.dir/main.c.o -o temperature_sensor  libtemperature_sensor_lib.a 
+/usr/bin/cc --coverage --coverage CMakeFiles/temperature_sensor.dir/main.c.o -o temperature_sensor  libtemperature_sensor_lib.a 

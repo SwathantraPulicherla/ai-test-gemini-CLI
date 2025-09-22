@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = -I/workspaces/ai-test-gemini-CLI/unity/src -I/workspaces/ai-test-gemini-CLI
 
-C_FLAGS = -std=gnu99
+C_FLAGS = --coverage -std=gnu99
 

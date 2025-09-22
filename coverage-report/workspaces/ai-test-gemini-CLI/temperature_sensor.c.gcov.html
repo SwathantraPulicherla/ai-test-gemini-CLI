@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_filtered.info - workspaces/ai-test-gemini-CLI/temperature_sensor.c</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">/workspaces/ai-test-gemini-CLI</a> - temperature_sensor.c<span style="font-size: 80%;"> (source / <a href="temperature_sensor.c.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_filtered.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">16</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2025-09-22 19:43:20</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">5</td>
+          </tr>
+                  <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #include &lt;stdio.h&gt;</span>
+<span id="L2"><span class="lineNum">       2</span>              : #include &lt;stdlib.h&gt;</span>
+<span id="L3"><span class="lineNum">       3</span>              : </span>
+<span id="L4"><span class="lineNum">       4</span>              : // Function to simulate reading temperature from a sensor</span>
+<span id="L5"><span class="lineNum">       5</span>              : // Behavior: Always returns 25.5f as a stub implementation</span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC tlaBgGNC">           2 : float get_temperature() {</span></span>
+<span id="L7"><span class="lineNum">       7</span>              :     // In a real implementation, this would read from hardware</span>
+<span id="L8"><span class="lineNum">       8</span>              :     // For testing purposes, return a fixed value</span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           2 :     return 25.5f;</span></span>
+<span id="L10"><span class="lineNum">      10</span>              : }</span>
+<span id="L11"><span class="lineNum">      11</span>              : </span>
+<span id="L12"><span class="lineNum">      12</span>              : // Function to check if temperature is within safe range</span>
+<span id="L13"><span class="lineNum">      13</span>              : // Behavior: Returns 1 if temp is in range [0.0, 100.0], otherwise returns 0</span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           8 : int is_temperature_safe(float temp) {</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           8 :     return (temp &gt;= 0.0f &amp;&amp; temp &lt;= 100.0f);</span></span>
+<span id="L16"><span class="lineNum">      16</span>              : }</span>
+<span id="L17"><span class="lineNum">      17</span>              : </span>
+<span id="L18"><span class="lineNum">      18</span>              : // Function to convert Celsius to Fahrenheit</span>
+<span id="L19"><span class="lineNum">      19</span>              : // Behavior: Returns (celsius * 9.0f / 5.0f) + 32.0f</span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           6 : float celsius_to_fahrenheit(float celsius) {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           6 :     return (celsius * 9.0f / 5.0f) + 32.0f;</span></span>
+<span id="L22"><span class="lineNum">      22</span>              : }</span>
+<span id="L23"><span class="lineNum">      23</span>              : </span>
+<span id="L24"><span class="lineNum">      24</span>              : // Function to convert Fahrenheit to Celsius</span>
+<span id="L25"><span class="lineNum">      25</span>              : // Behavior: Returns (fahrenheit - 32.0f) * 5.0f / 9.0f</span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           6 : float fahrenheit_to_celsius(float fahrenheit) {</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           6 :     return (fahrenheit - 32.0f) * 5.0f / 9.0f;</span></span>
+<span id="L28"><span class="lineNum">      28</span>              : }</span>
+<span id="L29"><span class="lineNum">      29</span>              : </span>
+<span id="L30"><span class="lineNum">      30</span>              : // Function to get temperature status as string</span>
+<span id="L31"><span class="lineNum">      31</span>              : // Behavior: Returns &quot;Cold&quot; if temp &lt; 10, &quot;Normal&quot; if 10-25, &quot;Warm&quot; if 25-35, &quot;Hot&quot; if &gt; 35</span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           8 : const char* get_temperature_status(float temp) {</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           8 :     if (temp &lt; 10.0f) {</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           1 :         return &quot;Cold&quot;;</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           7 :     } else if (temp &gt;= 10.0f &amp;&amp; temp &lt; 25.0f) {</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           2 :         return &quot;Normal&quot;;</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           5 :     } else if (temp &gt;= 25.0f &amp;&amp; temp &lt; 35.0f) {</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           3 :         return &quot;Warm&quot;;</span></span>
+<span id="L39"><span class="lineNum">      39</span>              :     } else {</span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           2 :         return &quot;Hot&quot;;</span></span>
+<span id="L41"><span class="lineNum">      41</span>              :     }</span>
+<span id="L42"><span class="lineNum">      42</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

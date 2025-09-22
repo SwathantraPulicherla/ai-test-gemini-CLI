@@ -23,6 +23,8 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
+      pages: write
+      id-token: write
     
     steps:
       - name: Checkout code
@@ -128,18 +130,18 @@ jobs:
           
           echo "Overall test run completed with exit code: $overall_exit_code" >> ../$output_file
           
-          # Generate coverage report
-          echo "Generating coverage report..." >> ../$output_file
-          lcov --capture --directory . --output-file coverage.info 2>&1 || echo "lcov capture failed" >> ../$output_file
-          if [ -f coverage.info ]; then
-            lcov --remove coverage.info '/usr/*' '*/unity/*' '*/test/*' --output-file coverage.info 2>&1 || echo "lcov remove failed" >> ../$output_file
-            genhtml coverage.info --output-directory ../coverage-report 2>&1 || echo "genhtml failed" >> ../$output_file
-          else
-            echo "coverage.info not found, skipping report generation" >> ../$output_file
-          fi
-          
-          # Always exit 0 to not fail the workflow
-          exit 0
+      - name: Generate coverage info
+        run: |
+          cd build
+          lcov --capture --directory . --output-file coverage.info --ignore-errors unused
+          lcov --remove coverage.info '*/tests/*' '*/unity/*' '*/test/*' '/usr/*' '*test*.c' --output-file coverage_filtered.info --ignore-errors unused
+          lcov --extract coverage_filtered.info '*.c' --output-file coverage_source.info --ignore-errors unused
+          genhtml coverage_source.info --output-directory coverage_html
+
+      - name: Upload coverage report artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/coverage_html/   # must match the folder with your HTML report
           
       - name: Display test results
         if: always()
@@ -171,75 +173,31 @@ jobs:
           name: test-results-${{ github.run_id }}
           path: test_output.txt
           
-      - name: Upload coverage report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report-${{ github.run_id }}
-          path: coverage-report/
-          
-      - name: Deploy coverage to gh-pages branch
-        if: github.ref == 'refs/heads/main' && always()
-        run: |
-          # Check if coverage-report directory exists
-          if [ ! -d "coverage-report" ]; then
-            echo "No coverage report directory found, skipping deployment"
-            exit 0
-          fi
-          
-          # Configure git
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
-          
-          # Create gh-pages branch if it doesn't exist
-          if ! git ls-remote --heads origin gh-pages | grep gh-pages > /dev/null; then
-            echo "Creating gh-pages branch..."
-            git checkout --orphan gh-pages
-            git rm -rf .
-            git commit --allow-empty -m "Initial gh-pages commit"
-            git push origin gh-pages
-            git checkout main
-          fi
-          
-          # Switch to gh-pages branch
-          git checkout gh-pages
-          git pull origin gh-pages || true
-          
-          # Clean and copy coverage reports
-          rm -rf *
-          cp -r ../coverage-report/* . 2>/dev/null || echo "No coverage reports to copy"
-          
-          # Create index.html if it doesn't exist
-          if [ ! -f "index.html" ] && [ -f "temperature_sensor.c.gcov.html" ]; then
-            cp "temperature_sensor.c.gcov.html" "index.html"
-          fi
-          
-          # Commit and push
-          git add .
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Update coverage reports - $(date)"
-            git push origin gh-pages
-          fi
-          
-          # Switch back to main
-          git checkout main
-          
       - name: Coverage Report Summary
         if: github.ref == 'refs/heads/main' && always()
         run: |
-          echo "## 📊 Coverage Report Deployed"
+          echo "## 📊 Coverage Report Generated"
           echo ""
-          echo "Coverage reports have been deployed to the gh-pages branch."
+          echo "Coverage reports have been generated and will be deployed to GitHub Pages."
           echo ""
-          echo "### 🌐 View Coverage Reports"
-          echo "**Open in browser:** https://SwathantraPulicherla.github.io/ai-test-gemini-CLI/"
-          echo ""
-          echo "### 📁 Repository Setup Required"
+          echo "### 📁 Repository Setup Required (One-time)"
           echo "1. Go to **Settings** → **Pages**"
-          echo "2. Set **Source** to **'Deploy from a branch'**"
-          echo "3. Set **Branch** to **'gh-pages'** / **'/'** (root)"
-          echo "4. **Save** changes"
+          echo "2. Set **Source** to **'GitHub Actions'**"
+          echo "3. **Save** changes"
           echo ""
-          echo "The coverage reports will then be available at the link above."
+          echo "The coverage reports will then be available at: https://SwathantraPulicherla.github.io/ai-test-gemini-CLI/"
+
+  deploy:
+    needs: generate-tests
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
