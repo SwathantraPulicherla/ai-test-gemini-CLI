@@ -16,6 +16,9 @@ float fahrenheit_to_celsius(float fahrenheit);
 // Function to convert Celsius to Kelvin
 float celsius_to_kelvin(float celsius);
 
+// Function to convert Kelvin to Celsius
+float kelvin_to_celsius(float kelvin);
+
 // Function to get temperature status as string
 const char* get_temperature_status(float temp);
 

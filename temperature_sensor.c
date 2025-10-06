@@ -46,3 +46,9 @@ const char* get_temperature_status(float temp) {
         return "Hot";
     }
 }
+
+// Function to convert Kelvin to Celsius
+// Behavior: Returns kelvin - 273.15f
+float kelvin_to_celsius(float kelvin) {
+    return kelvin - 273.15f;
+}
