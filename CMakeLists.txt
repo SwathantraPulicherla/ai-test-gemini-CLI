@@ -4,14 +4,22 @@ project(TemperatureSensor)
 # Set C standard
 set(CMAKE_C_STANDARD 99)
 
+# Add coverage flags
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+
 # Include directories
 include_directories(unity/src)
 
-# Source files for library
+# Create temperature_utils library
+add_library(temperature_utils_lib STATIC temperature_utils.c)
+
+# Source files for temperature_sensor library
 set(LIB_SOURCES temperature_sensor.c)
 
-# Create static library
+# Create temperature_sensor library
 add_library(temperature_sensor_lib STATIC ${LIB_SOURCES})
+target_link_libraries(temperature_sensor_lib temperature_utils_lib)
 
 # Create executable
 add_executable(temperature_sensor main.c)
