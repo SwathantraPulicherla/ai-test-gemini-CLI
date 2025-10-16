@@ -3,146 +3,116 @@
 #include "temperature_utils.h"
 #include <string.h>
 
-// setUp and tearDown functions can be used for test setup and cleanup.
+// setUp and tearDown functions are optional but good practice
 void setUp(void) {
-    // This function is called before each test.
+    // Set up any necessary resources before each test
 }
 
 void tearDown(void) {
-    // This function is called after each test.
+    // Clean up any resources after each test
 }
 
-//================================================================================
+// =================================================================
 // Test suite for calculate_temperature_difference
-//================================================================================
+// =================================================================
 
-// Test with temp1 > temp2, expecting a positive difference
 void test_calculate_temperature_difference_positive_result(void) {
-    TEST_ASSERT_FLOAT_WITHIN(0.001f, 5.5f, calculate_temperature_difference(25.5f, 20.0f));
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 5.0f, calculate_temperature_difference(25.0f, 20.0f));
 }
 
-// Test with temp2 > temp1, expecting a positive (absolute) difference
-void test_calculate_temperature_difference_negative_input_should_be_absolute(void) {
-    TEST_ASSERT_FLOAT_WITHIN(0.001f, 5.5f, calculate_temperature_difference(20.0f, 25.5f));
+void test_calculate_temperature_difference_negative_result_is_absolute(void) {
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 5.0f, calculate_temperature_difference(20.0f, 25.0f));
 }
 
-// Test with equal temperatures, expecting zero difference
 void test_calculate_temperature_difference_zero_difference(void) {
-    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, calculate_temperature_difference(22.0f, 22.0f));
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, calculate_temperature_difference(22.5f, 22.5f));
 }
 
-// Test with two negative temperatures
 void test_calculate_temperature_difference_with_negative_temperatures(void) {
-    TEST_ASSERT_FLOAT_WITHIN(0.001f, 5.0f, calculate_temperature_difference(-5.0f, -10.0f));
     TEST_ASSERT_FLOAT_WITHIN(0.001f, 5.0f, calculate_temperature_difference(-10.0f, -5.0f));
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 5.0f, calculate_temperature_difference(-5.0f, -10.0f));
 }
 
-// Test with one positive and one negative temperature
-void test_calculate_temperature_difference_with_mixed_sign_temperatures(void) {
+void test_calculate_temperature_difference_across_zero(void) {
     TEST_ASSERT_FLOAT_WITHIN(0.001f, 10.0f, calculate_temperature_difference(5.0f, -5.0f));
-    TEST_ASSERT_FLOAT_WITHIN(0.001f, 10.0f, calculate_temperature_difference(-5.0f, 5.0f));
 }
 
-// Test with a temperature and zero
-void test_calculate_temperature_difference_with_zero(void) {
-    TEST_ASSERT_FLOAT_WITHIN(0.001f, 10.0f, calculate_temperature_difference(10.0f, 0.0f));
-    TEST_ASSERT_FLOAT_WITHIN(0.001f, 10.0f, calculate_temperature_difference(0.0f, 10.0f));
+void test_calculate_temperature_difference_with_fractional_values(void) {
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 5.3f, calculate_temperature_difference(25.5f, 20.2f));
 }
 
-//================================================================================
+// =================================================================
 // Test suite for is_temperature_stable
-//================================================================================
+// =================================================================
 
-// Test when difference is less than the 5.0 threshold
-void test_is_temperature_stable_within_limit(void) {
-    TEST_ASSERT_EQUAL(1, is_temperature_stable(24.9f, 20.0f));
+void test_is_temperature_stable_when_difference_is_small(void) {
+    TEST_ASSERT_EQUAL(1, is_temperature_stable(23.0f, 20.0f)); // Diff = 3.0
 }
 
-// Test when difference is exactly at the 5.0 threshold (boundary condition)
-void test_is_temperature_stable_at_upper_boundary(void) {
-    TEST_ASSERT_EQUAL(1, is_temperature_stable(25.0f, 20.0f));
+void test_is_temperature_stable_at_boundary(void) {
+    TEST_ASSERT_EQUAL(1, is_temperature_stable(25.0f, 20.0f)); // Diff = 5.0
+    TEST_ASSERT_EQUAL(1, is_temperature_stable(20.0f, 25.0f)); // Diff = 5.0
 }
 
-// Test when difference is just over the 5.0 threshold (boundary condition)
-void test_is_temperature_stable_just_over_limit(void) {
-    TEST_ASSERT_EQUAL(0, is_temperature_stable(25.001f, 20.0f));
+void test_is_temperature_stable_just_outside_boundary(void) {
+    TEST_ASSERT_EQUAL(0, is_temperature_stable(25.1f, 20.0f)); // Diff = 5.1
+    TEST_ASSERT_EQUAL(0, is_temperature_stable(19.9f, 25.0f)); // Diff = 5.1
 }
 
-// Test with no temperature change
-void test_is_temperature_stable_zero_difference(void) {
-    TEST_ASSERT_EQUAL(1, is_temperature_stable(22.0f, 22.0f));
+void test_is_temperature_stable_for_zero_difference(void) {
+    TEST_ASSERT_EQUAL(1, is_temperature_stable(22.2f, 22.2f));
 }
 
-// Test with swapped arguments to ensure absolute difference is used
-void test_is_temperature_stable_swapped_args_within_limit(void) {
-    TEST_ASSERT_EQUAL(1, is_temperature_stable(20.0f, 24.9f));
+void test_is_temperature_stable_with_large_difference(void) {
+    TEST_ASSERT_EQUAL(0, is_temperature_stable(30.0f, 20.0f)); // Diff = 10.0
 }
 
-// Test with negative temperatures that are within the stable range
-void test_is_temperature_stable_negative_temps_within_limit(void) {
-    TEST_ASSERT_EQUAL(1, is_temperature_stable(-10.0f, -14.0f)); // diff = 4.0
+void test_is_temperature_stable_with_negative_values_within_limit(void) {
+    TEST_ASSERT_EQUAL(1, is_temperature_stable(-10.0f, -14.0f)); // Diff = 4.0
 }
 
-// Test with negative temperatures that are outside the stable range
-void test_is_temperature_stable_negative_temps_over_limit(void) {
-    TEST_ASSERT_EQUAL(0, is_temperature_stable(-10.0f, -16.0f)); // diff = 6.0
+void test_is_temperature_stable_with_negative_values_outside_limit(void) {
+    TEST_ASSERT_EQUAL(0, is_temperature_stable(-10.0f, -16.0f)); // Diff = 6.0
 }
 
-//================================================================================
+
+// =================================================================
 // Test suite for get_temperature_trend
-//================================================================================
+// =================================================================
 
-// Test for a rising temperature trend
 void test_get_temperature_trend_rising(void) {
     const char* trend = get_temperature_trend(25.0f, 20.0f);
-    TEST_ASSERT_NOT_NULL(trend);
     TEST_ASSERT_EQUAL(0, strcmp("Rising", trend));
 }
 
-// Test for a falling temperature trend
 void test_get_temperature_trend_falling(void) {
     const char* trend = get_temperature_trend(20.0f, 25.0f);
-    TEST_ASSERT_NOT_NULL(trend);
     TEST_ASSERT_EQUAL(0, strcmp("Falling", trend));
 }
 
-// Test for a stable temperature
 void test_get_temperature_trend_stable(void) {
-    const char* trend = get_temperature_trend(22.0f, 22.0f);
-    TEST_ASSERT_NOT_NULL(trend);
+    const char* trend = get_temperature_trend(22.5f, 22.5f);
     TEST_ASSERT_EQUAL(0, strcmp("Stable", trend));
 }
 
-// Test for stable negative temperatures
-void test_get_temperature_trend_stable_with_negative_temps(void) {
-    const char* trend = get_temperature_trend(-10.0f, -10.0f);
-    TEST_ASSERT_NOT_NULL(trend);
-    TEST_ASSERT_EQUAL(0, strcmp("Stable", trend));
-}
-
-// Test for rising trend with negative temperatures
-void test_get_temperature_trend_rising_with_negative_temps(void) {
-    const char* trend = get_temperature_trend(-10.0f, -15.0f);
-    TEST_ASSERT_NOT_NULL(trend);
+void test_get_temperature_trend_rising_with_negative_values(void) {
+    const char* trend = get_temperature_trend(-5.0f, -10.0f);
     TEST_ASSERT_EQUAL(0, strcmp("Rising", trend));
 }
 
-// Test for falling trend with negative temperatures
-void test_get_temperature_trend_falling_with_negative_temps(void) {
-    const char* trend = get_temperature_trend(-15.0f, -10.0f);
-    TEST_ASSERT_NOT_NULL(trend);
+void test_get_temperature_trend_falling_with_negative_values(void) {
+    const char* trend = get_temperature_trend(-10.0f, -5.0f);
     TEST_ASSERT_EQUAL(0, strcmp("Falling", trend));
 }
 
-// Test for trend crossing from negative to positive and vice-versa
-void test_get_temperature_trend_crossing_zero(void) {
-    const char* trend_rising = get_temperature_trend(2.0f, -2.0f);
-    TEST_ASSERT_NOT_NULL(trend_rising);
-    TEST_ASSERT_EQUAL(0, strcmp("Rising", trend_rising));
-    
-    const char* trend_falling = get_temperature_trend(-2.0f, 2.0f);
-    TEST_ASSERT_NOT_NULL(trend_falling);
-    TEST_ASSERT_EQUAL(0, strcmp("Falling", trend_falling));
+void test_get_temperature_trend_stable_with_negative_values(void) {
+    const char* trend = get_temperature_trend(-10.0f, -10.0f);
+    TEST_ASSERT_EQUAL(0, strcmp("Stable", trend));
+}
+
+void test_get_temperature_trend_rising_across_zero(void) {
+    const char* trend = get_temperature_trend(2.0f, -2.0f);
+    TEST_ASSERT_EQUAL(0, strcmp("Rising", trend));
 }
 
 // Main function to run all the tests
@@ -151,29 +121,29 @@ int main(void) {
 
     // Run tests for calculate_temperature_difference
     RUN_TEST(test_calculate_temperature_difference_positive_result);
-    RUN_TEST(test_calculate_temperature_difference_negative_input_should_be_absolute);
+    RUN_TEST(test_calculate_temperature_difference_negative_result_is_absolute);
     RUN_TEST(test_calculate_temperature_difference_zero_difference);
     RUN_TEST(test_calculate_temperature_difference_with_negative_temperatures);
-    RUN_TEST(test_calculate_temperature_difference_with_mixed_sign_temperatures);
-    RUN_TEST(test_calculate_temperature_difference_with_zero);
+    RUN_TEST(test_calculate_temperature_difference_across_zero);
+    RUN_TEST(test_calculate_temperature_difference_with_fractional_values);
 
     // Run tests for is_temperature_stable
-    RUN_TEST(test_is_temperature_stable_within_limit);
-    RUN_TEST(test_is_temperature_stable_at_upper_boundary);
-    RUN_TEST(test_is_temperature_stable_just_over_limit);
-    RUN_TEST(test_is_temperature_stable_zero_difference);
-    RUN_TEST(test_is_temperature_stable_swapped_args_within_limit);
-    RUN_TEST(test_is_temperature_stable_negative_temps_within_limit);
-    RUN_TEST(test_is_temperature_stable_negative_temps_over_limit);
+    RUN_TEST(test_is_temperature_stable_when_difference_is_small);
+    RUN_TEST(test_is_temperature_stable_at_boundary);
+    RUN_TEST(test_is_temperature_stable_just_outside_boundary);
+    RUN_TEST(test_is_temperature_stable_for_zero_difference);
+    RUN_TEST(test_is_temperature_stable_with_large_difference);
+    RUN_TEST(test_is_temperature_stable_with_negative_values_within_limit);
+    RUN_TEST(test_is_temperature_stable_with_negative_values_outside_limit);
 
     // Run tests for get_temperature_trend
     RUN_TEST(test_get_temperature_trend_rising);
     RUN_TEST(test_get_temperature_trend_falling);
     RUN_TEST(test_get_temperature_trend_stable);
-    RUN_TEST(test_get_temperature_trend_stable_with_negative_temps);
-    RUN_TEST(test_get_temperature_trend_rising_with_negative_temps);
-    RUN_TEST(test_get_temperature_trend_falling_with_negative_temps);
-    RUN_TEST(test_get_temperature_trend_crossing_zero);
-    
+    RUN_TEST(test_get_temperature_trend_rising_with_negative_values);
+    RUN_TEST(test_get_temperature_trend_falling_with_negative_values);
+    RUN_TEST(test_get_temperature_trend_stable_with_negative_values);
+    RUN_TEST(test_get_temperature_trend_rising_across_zero);
+
     return UNITY_END();
 }
