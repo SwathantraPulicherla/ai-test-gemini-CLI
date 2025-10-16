@@ -1,0 +1,9 @@
+build/
+*.gcno
+*.gcda
+*.gcov
+coverage.info
+coverage_filtered.info
+test_output.txt
+__pycache__/
+*.pyc
